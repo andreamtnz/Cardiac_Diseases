@@ -1,3 +1,5 @@
+package cardiac_diseases;
+
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -57,13 +59,14 @@ public class Patient {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Patient patient)) return false;
-        return Objects.equals(getName(), patient.getName()) && Objects.equals(getSurname(), patient.getSurname()) && getDisease() == patient.getDisease() && Objects.equals(getSymptoms(), patient.getSymptoms());
+        if (!(o instanceof Patient)) return false;
+        Patient patient = (Patient) o;
+        return age == patient.age && Objects.equals(getName(), patient.getName()) && Objects.equals(getSurname(), patient.getSurname()) && getDisease() == patient.getDisease() && Objects.equals(getSymptoms(), patient.getSymptoms());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getSurname(), getDisease(), getSymptoms());
+        return Objects.hash(getName(), getSurname(), age, getDisease(), getSymptoms());
     }
 
     @Override
