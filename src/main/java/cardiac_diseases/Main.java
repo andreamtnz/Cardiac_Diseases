@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 
 
+
+
 public class Main {
 private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     public static void main(String[] args) throws Exception {
@@ -21,6 +23,7 @@ private static BufferedReader reader = new BufferedReader(new InputStreamReader(
             switch (choice) {
                 case 1: {
                     //TODO
+
                 }
                 case 2: {
                     //TODO
@@ -52,6 +55,7 @@ private static BufferedReader reader = new BufferedReader(new InputStreamReader(
         System.out.println("   1: Add patient ");
         System.out.println("   2: Modify patient");
         System.out.println("   3: Make diagnosis");
+
         System.out.println("   7: Exit");
     }
 
@@ -84,6 +88,17 @@ private static BufferedReader reader = new BufferedReader(new InputStreamReader(
         }
         return intLeido;
     }
+
+    public static void showAllSymptoms(){
+        Symptoms [] valores = Symptoms.values();
+        int n= 0;
+        for (Symptoms symptom : valores) {
+            System.out.println(n + "." +symptom);
+            n++;
+        }
+
+    }
+
 
 
 }
