@@ -61,6 +61,11 @@
           <version>15.0</version>
           <scope>compile</scope>
       </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-decisiontables</artifactId>
+      <version>${drools-version}</version>
+    </dependency>
 
   </dependencies>
 
