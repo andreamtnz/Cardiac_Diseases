@@ -8,10 +8,10 @@ public class Patient {
     private String name;
     private String surname;
     private int age;
-    private Diseases disease;
-    private LinkedList<Symptoms> symptoms = new LinkedList<>();
+    private Disease disease;
+    private LinkedList<Symptom> symptoms = new LinkedList<>();
 
-    public Patient (String name, String surname, int age, Diseases disease){
+    public Patient (String name, String surname, int age, Disease disease){
         this.name = name;
         this.surname = surname;
         this.age = age;
@@ -40,19 +40,19 @@ public class Patient {
         this.surname = surname;
     }
 
-    public Diseases getDisease() {
+    public Disease getDisease() {
         return disease;
     }
 
-    public void setDisease(Diseases disease) {
+    public void setDisease(Disease disease) {
         this.disease = disease;
     }
 
-    public LinkedList<Symptoms> getSymptoms() {
+    public LinkedList<Symptom> getSymptoms() {
         return symptoms;
     }
 
-    public void setSymptoms(LinkedList<Symptoms> symptoms) {
+    public void setSymptoms(LinkedList<Symptom> symptoms) {
         this.symptoms = symptoms;
     }
 
@@ -82,11 +82,11 @@ public class Patient {
 
     public static void main(String[] args){
         try{
-            Patient patient1 = new Patient("Pepe", "Aparicio", 57, Diseases.INTERAURICULAR_COMMUNICATION );
+            Patient patient1 = new Patient("Pepe", "Aparicio", 57, Disease.INTERAURICULAR_COMMUNICATION );
             System.out.println(patient1);
 
-            patient1.symptoms.add(Symptoms.BRADYCHARDIA);
-            patient1.symptoms.add(Symptoms.STRIDOR);
+            patient1.symptoms.add(Symptom.BRADYCHARDIA);
+            patient1.symptoms.add(Symptom.STRIDOR);
             System.out.println(patient1);
 
         }catch(Exception ex){

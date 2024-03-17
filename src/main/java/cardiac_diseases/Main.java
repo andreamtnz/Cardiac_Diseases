@@ -94,22 +94,22 @@ private static BufferedReader reader = new BufferedReader(new InputStreamReader(
     }
 
     public static void showAllSymptoms(){
-        Symptoms [] valores = Symptoms.values();
+        Symptom [] valores = Symptom.values();
         int n= 0;
-        for (Symptoms symptom : valores) {
+        for (Symptom symptom : valores) {
             System.out.println(n + "." +symptom);
             n++;
         }
     }
 
-    public static List<Symptoms> selectSymptoms(){
+    public static List<Symptom> selectSymptoms(){
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter the numbers of selected symptoms (separated by spaces): ");
         String input = sc.nextLine();
-        Symptoms [] symptoms = Symptoms.values();
+        Symptom [] symptoms = Symptom.values();
         // Split the input by spaces and convert them to integers
         String[] numbers = input.split("\\s+");
-        List<Symptoms> selectedSymptoms = new ArrayList<>();
+        List<Symptom> selectedSymptoms = new ArrayList<>();
         for (String number : numbers) {
             int index = Integer.parseInt(number) - 1;
             if (index >= 0 && index < symptoms.length) {
