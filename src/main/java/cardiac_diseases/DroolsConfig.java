@@ -14,7 +14,7 @@ public class DroolsConfig {
 
     private KieFileSystem getKieFileSystem() throws IOException{
         KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
-        kieFileSystem.write(ResourceFactory.newClassPathResource("drools.xlsx"));
+        kieFileSystem.write(ResourceFactory.newClassPathResource("cardiac_diseases/test.drl.xlsx"));
         return kieFileSystem;
     }
 
