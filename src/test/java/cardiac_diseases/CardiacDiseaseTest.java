@@ -30,10 +30,18 @@ public class CardiacDiseaseTest {
             Patient patient = new Patient("Blanca", "Pueche", 20);
 
             // 2. Setting properties
-            List<Symptom> symptomList = new ArrayList<>();
-            symptomList.add(Symptom.CHEST_PAIN);
+            /*
+            patient.getSymptoms().add(Symptom.CHEST_PAIN);
+            System.out.println(patient.getSymptoms());
+            System.out.println(patient.getDisease());
+             */
 
+
+            System.out.println(patient);
+            patientUnit.getPatients().add(patient);
             LOG.info("Run query. Rules are also fired");
+            instance.fire();
+            System.out.println(patient);
             assertEquals(Disease.TEST, patient.getDisease());
         } finally {
             instance.close();
