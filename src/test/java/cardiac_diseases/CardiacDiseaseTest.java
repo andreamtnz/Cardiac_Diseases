@@ -40,7 +40,8 @@ public class CardiacDiseaseTest {
             System.out.println(patient);
             patientUnit.getPatients().add(patient);
             LOG.info("Run query. Rules are also fired");
-            instance.fire();
+            int rules = instance.fire();
+            System.out.println(rules);
             System.out.println(patient);
             assertEquals(Disease.TEST, patient.getDisease());
         } finally {

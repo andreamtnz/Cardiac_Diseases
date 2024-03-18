@@ -30,7 +30,8 @@ public class RuleTest {
             measurementUnit.getMeasurements().add(new Measurement("color", "blue"));
 
             LOG.info("Run query. Rules are also fired");
-            instance.fire();
+            int rule = instance.fire();
+            System.out.println(rule);
 
             /*
             List<Measurement> queryResult = instance.executeQuery("FindColor").toList("$m");
