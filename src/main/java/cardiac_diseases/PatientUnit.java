@@ -11,7 +11,6 @@ import java.util.Set;
 public class PatientUnit implements RuleUnitData {
 
         private final DataStore<Patient> patients;
-        private final Set<String> controlSet = new HashSet<>();
 
         public PatientUnit() {
             this(DataSource.createStore());
@@ -25,7 +24,4 @@ public class PatientUnit implements RuleUnitData {
             return patients;
         }
 
-        public Set<String> getControlSet() {
-            return controlSet;
-        }
     }
