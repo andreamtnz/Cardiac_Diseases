@@ -29,6 +29,7 @@ private static BufferedReader reader = new BufferedReader(new InputStreamReader(
             switch (choice) {
                 case 1: { // Add patient
                     Patient patient = createPatient();
+                    System.out.println(patient.getSymptoms());
 
                 }
                 case 2: { // Modify patient
@@ -108,15 +109,17 @@ private static BufferedReader reader = new BufferedReader(new InputStreamReader(
 
     public static LinkedList<Symptom> selectSymptoms(){
         Scanner sc = new Scanner(System.in);
+
         System.out.print("Enter the numbers of selected symptoms (separated by spaces): ");
         String input = sc.nextLine();
         Symptom [] symptoms = Symptom.values();
         // Split the input by spaces and convert them to integers
         String[] numbers = input.split("\\s+");
         LinkedList<Symptom> selectedSymptoms = new LinkedList<>();
+        int numberOfSympltoms = 156;
         for (String number : numbers) {
             int index = Integer.parseInt(number) - 1;
-            if (index >= 0 && index < symptoms.length) {
+            if (index >= 0 && index < symptoms.length && !selectedSymptoms.contains(symptoms[index]) && index <= numberOfSympltoms ) {
                 selectedSymptoms.add(symptoms[index]);
             }
         }
