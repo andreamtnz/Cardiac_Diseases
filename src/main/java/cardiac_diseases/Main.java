@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,15 +25,16 @@ private static BufferedReader reader = new BufferedReader(new InputStreamReader(
             Scanner sc = new Scanner(System.in);
             Integer choice = Integer.parseInt(sc.nextLine());
 
+
             switch (choice) {
-                case 1: {
-                    //TODO
+                case 1: { // Add patient
+                    Patient patient = createPatient();
 
                 }
-                case 2: {
+                case 2: { // Modify patient
                     //TODO
                 }
-                case 3: {
+                case 3: { // Make diagnosis
                     //TODO
                 }
                 case 4: {
@@ -70,7 +72,9 @@ private static BufferedReader reader = new BufferedReader(new InputStreamReader(
         System.out.println("Introduce the lastname of the patient:");
         String surname = reader.readLine();
         int age = readAge();
-        Patient patient = new Patient(name, surname, age);
+        showAllSymptoms();
+        LinkedList<Symptom> symptoms = selectSymptoms();
+        Patient patient = new Patient(name, surname, age, symptoms);
     return patient;
     }
 
@@ -102,14 +106,14 @@ private static BufferedReader reader = new BufferedReader(new InputStreamReader(
         }
     }
 
-    public static List<Symptom> selectSymptoms(){
+    public static LinkedList<Symptom> selectSymptoms(){
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter the numbers of selected symptoms (separated by spaces): ");
         String input = sc.nextLine();
         Symptom [] symptoms = Symptom.values();
         // Split the input by spaces and convert them to integers
         String[] numbers = input.split("\\s+");
-        List<Symptom> selectedSymptoms = new ArrayList<>();
+        LinkedList<Symptom> selectedSymptoms = new LinkedList<>();
         for (String number : numbers) {
             int index = Integer.parseInt(number) - 1;
             if (index >= 0 && index < symptoms.length) {
