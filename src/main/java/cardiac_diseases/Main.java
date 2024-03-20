@@ -10,10 +10,8 @@ import java.util.Scanner;
 
 
 public class Main {
-private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-public static Hospital hospital;
-public static File file;
-
+    public static Hospital hospital;
+    public static File file;
     public static void main(String[] args) throws Exception {
 
         boolean program = true;
@@ -21,7 +19,7 @@ public static File file;
 
         hospitalMenu();
         Integer num = Integer.parseInt(sc.nextLine());
-        switch (num) {
+        switch (num) { //TODO solve problem with file
             case 1: {
                 System.out.println("Enter the name of the file you want to open: ");
                 String name = sc.nextLine();
@@ -42,22 +40,23 @@ public static File file;
         while (program) {
 
             printMenu();
-
             Integer choice = Integer.parseInt(sc.nextLine());
 
             switch (choice) {
                 case 1: { // Add patient
-                    Patient patient = createPatient();
-                    System.out.println(patient.getSymptoms());
+                    createPatient();
                     break;
                 }
                 case 2: { // Modify patient
-                    //TODO
+                    modifyPatient();
                     break;
                 }
                 case 3: { // Make diagnosis
-                    //TODO
+                    makeDiagnosis();
                     break;
+                }
+                case 4: {
+                    showPatientsInfo();
                 }
                 case 7: {
                     boolean fileCreation = file.downloadCSV(hospital);
@@ -74,54 +73,35 @@ public static File file;
         sc.close();
     }
 
-    private static void printMenu(){
+    private static void printMenu() {
         System.out.println("-----------------MENU-----------------");
         System.out.println("   1: Add patient ");
-        System.out.println("   2: Modify patient"); //TODO option to search for patients in the hospital
-        System.out.println("   3: Make diagnosis"); //TODO select patient to make diagnosis
+        System.out.println("   2: Modify patient");
+        System.out.println("   3: Make diagnosis");
+        System.out.println("   4: Show all patients");
 
         System.out.println("   7: Exit");
     }
-
     private static void hospitalMenu(){
         System.out.println("-----------------WELCOME-----------------");
         System.out.println("Would you like to open a CSV with the patients or create a new one?:");
         System.out.println("   1: Open CSV ");
         System.out.println("   2: Create a new one");
     }
-
-    private static Patient createPatient() throws IOException {
+    private static void createPatient() throws IOException {
+        Scanner sc = new Scanner(System.in);
         System.out.println("Introduce the name of the patient:");
-        String name = reader.readLine();
+        String name = sc.nextLine();
         System.out.println("Introduce the lastname of the patient:");
-        String surname = reader.readLine();
-        int age = readAge();
+        String surname = sc.nextLine();
+        System.out.println("Introduce the age of the patient:");
+        Integer age = Integer.parseInt(sc.nextLine());
         showAllSymptoms();
         LinkedList<Symptom> symptoms = selectSymptoms();
         Patient patient = new Patient(name, surname, age, symptoms);
         hospital.getListOfPatients().add(patient);
-        return patient;
+        sc.close();
     }
-
-    public static int readAge (){
-        boolean check = false;
-        String stringLeida="";
-        int intLeido = 0;
-        System.out.println("Introduce the age of the patient:");
-        while (!check){
-            try{
-                stringLeida = reader.readLine();
-                intLeido = Integer.parseInt(stringLeida);
-                check=true;
-            }catch (IOException ioe){
-                System.out.println("Error while reading.");
-            }catch (NumberFormatException nfe){
-                System.out.println("You must enter an integer number.");
-            }
-        }
-        return intLeido;
-    }
-
     public static void showAllSymptoms(){
         Symptom [] valores = Symptom.values();
         int n= 0;
@@ -130,8 +110,7 @@ public static File file;
             n++;
         }
     }
-
-    public static LinkedList<Symptom> selectSymptoms(){
+    public static LinkedList<Symptom> selectSymptoms() throws IOException{
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter the numbers of selected symptoms (separated by spaces): ");
         String input = sc.nextLine();
@@ -149,7 +128,89 @@ public static File file;
         sc.close();
         return selectedSymptoms;
     }
-
+    public static void modifyPatient() throws IOException{
+        Patient patient = choosePatient();
+        System.out.println(patient);
+        modifyName(patient);
+        modifySurname(patient);
+        modifyAge(patient);
+        modifySymptoms(patient);
+    }
+    public static void modifyName(Patient patient) throws IOException{
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Do you want to modify name?: [y/n]");
+        String modify = sc.nextLine();
+        if (modify.equalsIgnoreCase("y")) {
+            System.out.println("Enter new name: ");
+            String newName = sc.nextLine();
+            patient.setName(newName);
+        }
+        sc.close();
+    }
+    public static void modifySurname(Patient patient) throws IOException{
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Do you want to modify surname?: [y/n]");
+        String modify = sc.nextLine();
+        if (modify.equalsIgnoreCase("y")) {
+            System.out.println("Enter new surname: ");
+            String newSurname = sc.nextLine();
+            patient.setSurname(newSurname);
+        }
+        sc.close();
+    }
+    public static void modifyAge(Patient patient) throws IOException{
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Do you want to modify age?: [y/n]");
+        String modify = sc.nextLine();
+        if (modify.equalsIgnoreCase("y")) {
+            System.out.println("Enter new age: ");
+            Integer newAge = Integer.parseInt(sc.nextLine());
+            patient.setAge(newAge);
+        }
+        sc.close();
+    }
+    public static void modifySymptoms(Patient patient) throws IOException{
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Do you want to modify symptoms?: [y/n]");
+        System.out.println("Current symptoms");
+        System.out.println(patient.getSymptoms());
+        String modify = sc.nextLine(); //TODO make functions to change only selected symptoms!?
+        if (modify.equalsIgnoreCase("y")) {
+            showAllSymptoms();
+            LinkedList<Symptom> newSymptoms = selectSymptoms();
+            patient.setSymptoms(newSymptoms);
+            System.out.println("Do you want to make a new diagnosis with the new symptoms?: [y/n]");
+            modify = sc.nextLine();
+            if (modify.equalsIgnoreCase("y")){
+                //TODO call the makeDiagnosis function
+            }
+        }
+        sc.close();
+    }
+    public static Patient choosePatient() throws IOException{
+        Scanner sc = new Scanner(System.in);
+        LinkedList<Patient> list = hospital.getListOfPatients();
+        System.out.println("List of patients in this hospital: ");
+        for (int i = 0; i< list.size(); i++){
+            System.out.println(i + ": " + list.get(i).getName() + list.get(i).getSurname());
+        }
+        System.out.println("Please, choose the patient to modify: ");
+        Integer choice = Integer.parseInt(sc.nextLine());
+        Patient patient = list.get(choice);
+        sc.close();
+        return patient;
+    }
+    public static void makeDiagnosis() throws IOException{
+        Patient patient = choosePatient();
+        System.out.println(patient);
+        //TODO finish function
+    }
+    public static void showPatientsInfo(){
+        LinkedList<Patient> list = hospital.getListOfPatients();
+        for (Patient pat: list){
+            System.out.println(pat);
+        }
+    }
 
 
 }
