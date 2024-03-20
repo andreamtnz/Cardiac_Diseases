@@ -15,7 +15,7 @@ public class File {
             boolean check=true;
 
             try {
-                File file = new File("C://" + hospital.name + ".csv");
+                File file = new File("C://" + hospital.getName() + ".csv");
                 FileWriter fileWriter = new FileWriter(String.valueOf(file)); // FileWriter(file) da error
 
                 String heading = "Hospital, Patient name,Patient Lastname, Patient Age, Symptoms, Disease\n";
@@ -32,9 +32,6 @@ public class File {
             return check;
         }
 
-        /** Loads a population of mice from a CSV file.
-         * @return boolean
-         **/
         public static Hospital uploadCSV() {
             Hospital hospital=null;
 
