@@ -18,6 +18,20 @@ public class Patient {
         this.disease = disease;
     }
 
+    public Patient (String name, String surname, int age, LinkedList<Symptom> listOfSymptoms){
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.symptoms = listOfSymptoms;
+    }
+    public Patient (String name, String surname, int age, LinkedList<Symptom> listOfSymptoms, Disease disease){
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.symptoms = listOfSymptoms;
+        this.disease = disease;
+    }
+
     public Patient (String name, String surname,int age){
         this.name = name;
         this.surname = surname;
