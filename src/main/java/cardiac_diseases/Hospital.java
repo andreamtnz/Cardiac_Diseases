@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.Objects;
 
 public class Hospital {
-    LinkedList<Patient> listOfPatients = new LinkedList<>();
-    String name;
+    private LinkedList<Patient> listOfPatients = new LinkedList<>();
+    private String name;
 
     public Hospital(LinkedList<Patient> listOfPatients, String name) {
         this.listOfPatients = listOfPatients;

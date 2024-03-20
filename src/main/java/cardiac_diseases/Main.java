@@ -1,13 +1,9 @@
 package cardiac_diseases;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 
 
@@ -15,59 +11,86 @@ import java.util.Scanner;
 
 public class Main {
 private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+public static Hospital hospital;
+public static File file;
+
     public static void main(String[] args) throws Exception {
 
         boolean program = true;
+        Scanner sc = new Scanner(System.in);
+
+        hospitalMenu();
+        Integer num = Integer.parseInt(sc.nextLine());
+        switch (num) {
+            case 1: {
+                System.out.println("Enter the name of the file you want to open: ");
+                String name = sc.nextLine();
+                file = new File(name);
+                hospital = file.uploadCSV(); //creates a hospital based on the file
+                break;
+            }
+            case 2: {
+                System.out.println("Enter the name of the new file: ");
+                String name = sc.nextLine();
+                System.out.print("Creating new file...");
+                hospital = new Hospital(name);
+                file = new File(name);
+                break;
+            }
+        }
+
         while (program) {
 
             printMenu();
 
-            Scanner sc = new Scanner(System.in);
             Integer choice = Integer.parseInt(sc.nextLine());
-
 
             switch (choice) {
                 case 1: { // Add patient
                     Patient patient = createPatient();
                     System.out.println(patient.getSymptoms());
-
+                    break;
                 }
                 case 2: { // Modify patient
                     //TODO
+                    break;
                 }
                 case 3: { // Make diagnosis
                     //TODO
-                }
-                case 4: {
-                    //TODO
-                }
-                case 5: {
-                    //TODO
-                }
-                case 6: {
-                    //TODO
+                    break;
                 }
                 case 7: {
+                    boolean fileCreation = file.downloadCSV(hospital);
+                    if (fileCreation){
+                        System.out.print("Saved file correctly\n");
+                    }else{
+                        System.out.print("Couldn't save file correctly\n");
+                    }
                     System.out.println("Closing app...");
                     program = false;
                 }
-
-
             }
         }
+        sc.close();
     }
 
     private static void printMenu(){
         System.out.println("-----------------MENU-----------------");
         System.out.println("   1: Add patient ");
-        System.out.println("   2: Modify patient");
-        System.out.println("   3: Make diagnosis");
+        System.out.println("   2: Modify patient"); //TODO option to search for patients in the hospital
+        System.out.println("   3: Make diagnosis"); //TODO select patient to make diagnosis
 
         System.out.println("   7: Exit");
     }
 
-    private static Patient createPatient() throws IOException {
+    private static void hospitalMenu(){
+        System.out.println("-----------------WELCOME-----------------");
+        System.out.println("Would you like to open a CSV with the patients or create a new one?:");
+        System.out.println("   1: Open CSV ");
+        System.out.println("   2: Create a new one");
+    }
 
+    private static Patient createPatient() throws IOException {
         System.out.println("Introduce the name of the patient:");
         String name = reader.readLine();
         System.out.println("Introduce the lastname of the patient:");
@@ -76,7 +99,8 @@ private static BufferedReader reader = new BufferedReader(new InputStreamReader(
         showAllSymptoms();
         LinkedList<Symptom> symptoms = selectSymptoms();
         Patient patient = new Patient(name, surname, age, symptoms);
-    return patient;
+        hospital.getListOfPatients().add(patient);
+        return patient;
     }
 
     public static int readAge (){
@@ -109,20 +133,20 @@ private static BufferedReader reader = new BufferedReader(new InputStreamReader(
 
     public static LinkedList<Symptom> selectSymptoms(){
         Scanner sc = new Scanner(System.in);
-
         System.out.print("Enter the numbers of selected symptoms (separated by spaces): ");
         String input = sc.nextLine();
         Symptom [] symptoms = Symptom.values();
         // Split the input by spaces and convert them to integers
         String[] numbers = input.split("\\s+");
         LinkedList<Symptom> selectedSymptoms = new LinkedList<>();
-        int numberOfSympltoms = 156;
+        int numberOfSymptoms = 156;
         for (String number : numbers) {
             int index = Integer.parseInt(number) - 1;
-            if (index >= 0 && index < symptoms.length && !selectedSymptoms.contains(symptoms[index]) && index <= numberOfSympltoms ) {
+            if (index >= 0 && index < symptoms.length && !selectedSymptoms.contains(symptoms[index]) && index <= numberOfSymptoms ) {
                 selectedSymptoms.add(symptoms[index]);
             }
         }
+        sc.close();
         return selectedSymptoms;
     }
 

@@ -1,0 +1,2 @@
+Hospital, Patient name,Patient Lastname, Patient Age, Symptoms, Disease
+[Patient{name='Blanca', surname='Pueche', age=20, disease=null, symptoms=[CHEST_PAIN, SCAPULA_PAIN, LOWER_BACK_PAIN]}],test,Patient{name='Blanca', surname='Pueche', age=20, disease=null, symptoms=[CHEST_PAIN, SCAPULA_PAIN, LOWER_BACK_PAIN]}
