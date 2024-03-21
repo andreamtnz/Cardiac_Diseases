@@ -6,21 +6,15 @@ import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-
-
-
 public class Main {
     public static Hospital hospital;
     public static FileManager file;
     public static Scanner sc;
     public static void main(String[] args) throws Exception {
-        boolean restart = true;
-        while(restart){
             boolean program = true;
             sc = new Scanner(System.in);
             //Scanner sc = new Scanner(System.in);
             try {
-
                 hospitalMenu();
                 Integer num = Integer.parseInt(sc.nextLine());
                 while (num != 1 && num != 2) {
@@ -84,13 +78,11 @@ public class Main {
                     }
                 }
                 sc.close();
-                restart = false;
             } catch (IOException ex) {
                 System.out.println(ex);
             } catch (NumberFormatException ex) {
                 System.out.println(ex);
             }
-        }
     }
 
     private static void printMenu() {
