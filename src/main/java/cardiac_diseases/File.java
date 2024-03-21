@@ -1,0 +1,95 @@
+package cardiac_diseases;
+
+import java.io.*;
+import java.util.LinkedList;
+
+public class File {
+
+       private static String name ;
+
+    public File(String s) {
+        this.name  = s;
+    }
+
+    public static  boolean downloadCSV(Hospital hospital){
+            boolean check=true;
+
+            try {
+                File file = new File("C://" + hospital.getName() + ".csv");
+                FileWriter fileWriter = new FileWriter(String.valueOf(file)); // FileWriter(file) da error
+
+                String heading = "Hospital, Patient name,Patient Lastname, Patient Age, Symptoms, Disease\n";
+                fileWriter.write(heading);
+                for (Patient patient : hospital.getListOfPatients()){
+                    String row = hospital.toString() +"," + patient.toString();
+                    fileWriter.write(row);
+                }
+                fileWriter.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                check = false;
+            }
+            return check;
+        }
+
+        public static Hospital uploadCSV() {
+            Hospital hospital=null;
+
+            LinkedList<Patient> listPatients = new LinkedList<>();
+
+            try {
+                FileReader fileCSV = new FileReader(name + ".csv");
+                BufferedReader reader = new BufferedReader(fileCSV);
+
+                String row = reader.readLine();//Se salta la linea del encabezado que es como se ha escrito en guardarCSV()
+                row = reader.readLine();
+                String[] data = row.split(",");
+                hospital= new Hospital(data[0]);
+
+                while ((row = reader.readLine()) != null) {
+                    String symptomsData = data[4];
+                    String[] symptomsArray = symptomsData.split(",");
+                    LinkedList<Symptom> symptoms = new LinkedList<>();
+
+                    for (String symptom : symptomsArray) {
+                        try {
+                            Symptom demoType = Symptom.valueOf(symptom);
+                            symptoms.add(demoType);
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Error: '" + symptom + "' is not a valid symptom for the enum.");
+                        }
+                    }
+
+                    String diseaseData = data[5];
+                    Disease disease = null;
+                    try {
+                         disease = Disease.valueOf(diseaseData);
+                    }catch(IllegalArgumentException e) {
+                        System.out.println("Error: '" + diseaseData + "' is not a valid disease for the enum.");
+                    }
+
+                    Patient Patient = new Patient(data[1],data[2], Integer.parseInt(data[3]),
+                            symptoms, disease);
+                    listPatients.add(Patient);
+                    System.out.println(Patient);
+                }
+                hospital.setListOfPatients(listPatients);
+                reader.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception ex) {
+                System.out.println("Error: " + ex);
+                ex.printStackTrace();
+            }
+            return hospital;
+        }
+
+    public static String getName() {
+        return name;
+    }
+
+    public static void setName(String name) {
+        File.name = name;
+    }
+}
