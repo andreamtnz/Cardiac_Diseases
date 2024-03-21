@@ -6,85 +6,105 @@ import java.util.LinkedList;
 public class FileManager {
 
        private static String name ;
-
-
     public FileManager(String name) {
         this.name = name;
     }
 
-    public static  boolean downloadCSV(Hospital hospital){
-            boolean check=true;
+    public static boolean downloadCSV(Hospital hospital) {
+        boolean check = true;
 
-            try {
-                File file= new File(hospital.getName() + ".csv");
-                FileWriter fileWriter = new FileWriter(file);// FileWriter(file) da error
+        try {
+            File file = new File(hospital.getName() + ".csv");
+            FileWriter fileWriter = new FileWriter(file);
 
-                String heading = "Hospital, Patient name, Patient Lastname, Patient Age, Symptoms, Disease\n";
-                fileWriter.write(heading);
-                for (Patient patient : hospital.getListOfPatients()){
-                    String row = hospital.toString() +"," + patient.toCSV();
-                    fileWriter.write(row);
-                }
-                fileWriter.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                check = false;
+            // Write the header
+            fileWriter.write("\"Hospital\",\"Patient name\",\"Patient Lastname\",\"Patient Age\",\"Symptoms\",\"Disease\"\n");
+
+            // Write data for each patient
+            for (Patient patient : hospital.getListOfPatients()) {
+                String row = "\"" + hospital.getName() + "\",\"" + patient.getName() + "\",\"" +
+                        patient.getSurname() + "\",\"" + patient.getAge() + "\",\"" +
+                        symptomsToString(patient.getSymptoms()) + "\",\"" +
+                        patient.getDisease() + "\"\n";
+                fileWriter.write(row);
             }
-            return check;
+            fileWriter.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            check = false;
         }
+        return check;
+    }
 
-        public static Hospital uploadCSV() {
-            Hospital hospital=null;
+    private static String symptomsToString(LinkedList<Symptom> symptoms) {
+        StringBuilder builder = new StringBuilder();
+        for (Symptom symptom : symptoms) {
+            builder.append(symptom).append(",");
+        }
+        // Remove the trailing comma
+        if (builder.length() > 0) {
+            builder.deleteCharAt(builder.length() - 1);
+        }
+        return builder.toString();
+    }
 
-            LinkedList<Patient> listPatients = new LinkedList<>();
+    public static Hospital uploadCSV() {
+        Hospital hospital = null;
 
-            try {
-                FileReader fileCSV = new FileReader(name + ".csv");
-                BufferedReader reader = new BufferedReader(fileCSV);
+        LinkedList<Patient> listPatients = new LinkedList<>();
 
-                String row = reader.readLine();//Se salta la linea del encabezado que es como se ha escrito en guardarCSV()
-                row = reader.readLine();
-                String[] data = row.split(",");
-                hospital= new Hospital(data[0]);
+        try {
+            FileReader fileCSV = new FileReader(name + ".csv");
+            BufferedReader reader = new BufferedReader(fileCSV);
 
-                while ((row = reader.readLine()) != null) {
-                    String symptomsData = data[4];
-                    String[] symptomsArray = symptomsData.split(",");
-                    LinkedList<Symptom> symptoms = new LinkedList<>();
+            // Skip the header
+            reader.readLine();
 
-                    for (String symptom : symptomsArray) {
-                        try {
-                            Symptom demoType = Symptom.valueOf(symptom);
-                            symptoms.add(demoType);
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("Error: '" + symptom + "' is not a valid symptom for the enum.");
-                        }
-                    }
+            String row;
+            while ((row = reader.readLine()) != null) {
+                String[] data = row.split("\",\"");
 
-                    String diseaseData = data[5];
-                    Disease disease = null;
+                // Remove the double quotes
+                for (int i = 0; i < data.length; i++) {
+                    data[i] = data[i].replaceAll("\"", "");
+                }
+
+                String[] symptomsArray = data[4].split(",");
+                LinkedList<Symptom> symptoms = new LinkedList<>();
+
+                for (String symptom : symptomsArray) {
                     try {
-                         disease = Disease.valueOf(diseaseData);
-                    }catch(IllegalArgumentException e) {
-                        System.out.println("Error: '" + diseaseData + "' is not a valid disease for the enum.");
+                        Symptom demoType = Symptom.valueOf(symptom);
+                        symptoms.add(demoType);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Error: '" + symptom + "' is not a valid symptom for the enum.");
                     }
-
-                    Patient Patient = new Patient(data[1],data[2], Integer.parseInt(data[3]),
-                            symptoms, disease);
-                    listPatients.add(Patient);
-                    System.out.println(Patient);
                 }
-                hospital.setListOfPatients(listPatients);
-                reader.close();
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Exception ex) {
-                System.out.println("Error: " + ex);
-                ex.printStackTrace();
+                Disease disease = null;
+                try {
+                    disease = Disease.valueOf(data[5]);
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Error: '" + data[5] + "' is not a valid disease for the enum.");
+                }
+
+                Patient patient = new Patient(data[1], data[2], Integer.parseInt(data[3]),
+                        symptoms, disease);
+                listPatients.add(patient);
+                System.out.println(patient);
             }
-            return hospital;
+            hospital = new Hospital(listPatients.getFirst().getName());
+            hospital.setListOfPatients(listPatients);
+            reader.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex);
+            ex.printStackTrace();
         }
+        return hospital;
+    }
 
     public static String getName() {
         return name;
@@ -92,27 +112,5 @@ public class FileManager {
 
     public static void setName(String name) {
         FileManager.name = name;
-    }
-
-
-    public static void  main(String [] args){
-       Hospital hospital = new Hospital("Nuevo Hospital");
-
-        LinkedList<Symptom> symptoms1 = new LinkedList<>();
-        symptoms1.add(Symptom.BRADYCHARDIA);
-
-        Patient patient1 = new Patient("Andrea", "Martinez", 20, symptoms1, Disease.AORTIC_INSUFICIENCY);
-        LinkedList<Patient> patients = new LinkedList<>();
-        patients.add(patient1);
-        hospital.setListOfPatients(patients);
-
-        boolean b = downloadCSV(hospital);
-        if(b == true) {
-            System.out.println("todo okey");
-        }
-        /*
-        FileManager f = new FileManager("Nuevo Hospital");
-        Hospital hospital2 = f.uploadCSV();
-        System.out.println(hospital2);*/
     }
 }
