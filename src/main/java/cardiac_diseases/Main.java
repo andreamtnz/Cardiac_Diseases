@@ -12,10 +12,12 @@ import java.util.Scanner;
 public class Main {
     public static Hospital hospital;
     public static File file;
+    public static Scanner sc;
     public static void main(String[] args) throws Exception {
 
         boolean program = true;
-        Scanner sc = new Scanner(System.in);
+        sc = new Scanner(System.in);
+        //Scanner sc = new Scanner(System.in);
 
         hospitalMenu();
         Integer num = Integer.parseInt(sc.nextLine());
@@ -89,7 +91,7 @@ public class Main {
         System.out.println("   2: Create a new one");
     }
     private static void createPatient() throws IOException {
-        Scanner sc = new Scanner(System.in);
+       // Scanner sc = new Scanner(System.in);
         System.out.println("Introduce the name of the patient:");
         String name = sc.nextLine();
         System.out.println("Introduce the lastname of the patient:");
@@ -100,7 +102,7 @@ public class Main {
         LinkedList<Symptom> symptoms = selectSymptoms();
         Patient patient = new Patient(name, surname, age, symptoms);
         hospital.getListOfPatients().add(patient);
-        sc.close();
+        //sc.close();
     }
     public static void showAllSymptoms(){
         Symptom [] valores = Symptom.values();
@@ -111,7 +113,7 @@ public class Main {
         }
     }
     public static LinkedList<Symptom> selectSymptoms() throws IOException{
-        Scanner sc = new Scanner(System.in);
+        //Scanner sc = new Scanner(System.in);
         System.out.print("Enter the numbers of selected symptoms (separated by spaces): ");
         String input = sc.nextLine();
         Symptom [] symptoms = Symptom.values();
@@ -125,7 +127,7 @@ public class Main {
                 selectedSymptoms.add(symptoms[index]);
             }
         }
-        sc.close();
+        //sc.close();
         return selectedSymptoms;
     }
     public static void modifyPatient() throws IOException{
@@ -137,7 +139,7 @@ public class Main {
         modifySymptoms(patient);
     }
     public static void modifyName(Patient patient) throws IOException{
-        Scanner sc = new Scanner(System.in);
+        //Scanner sc = new Scanner(System.in);
         System.out.println("Do you want to modify name?: [y/n]");
         String modify = sc.nextLine();
         if (modify.equalsIgnoreCase("y")) {
@@ -145,10 +147,10 @@ public class Main {
             String newName = sc.nextLine();
             patient.setName(newName);
         }
-        sc.close();
+        //sc.close();
     }
     public static void modifySurname(Patient patient) throws IOException{
-        Scanner sc = new Scanner(System.in);
+        //Scanner sc = new Scanner(System.in);
         System.out.println("Do you want to modify surname?: [y/n]");
         String modify = sc.nextLine();
         if (modify.equalsIgnoreCase("y")) {
@@ -156,10 +158,10 @@ public class Main {
             String newSurname = sc.nextLine();
             patient.setSurname(newSurname);
         }
-        sc.close();
+        //sc.close();
     }
     public static void modifyAge(Patient patient) throws IOException{
-        Scanner sc = new Scanner(System.in);
+        //Scanner sc = new Scanner(System.in);
         System.out.println("Do you want to modify age?: [y/n]");
         String modify = sc.nextLine();
         if (modify.equalsIgnoreCase("y")) {
@@ -167,10 +169,10 @@ public class Main {
             Integer newAge = Integer.parseInt(sc.nextLine());
             patient.setAge(newAge);
         }
-        sc.close();
+        //sc.close();
     }
     public static void modifySymptoms(Patient patient) throws IOException{
-        Scanner sc = new Scanner(System.in);
+        //Scanner sc = new Scanner(System.in);
         System.out.println("Do you want to modify symptoms?: [y/n]");
         System.out.println("Current symptoms");
         System.out.println(patient.getSymptoms());
@@ -185,10 +187,10 @@ public class Main {
                 //TODO call the makeDiagnosis function
             }
         }
-        sc.close();
+        //sc.close();
     }
     public static Patient choosePatient() throws IOException{
-        Scanner sc = new Scanner(System.in);
+        //Scanner sc = new Scanner(System.in);
         LinkedList<Patient> list = hospital.getListOfPatients();
         System.out.println("List of patients in this hospital: ");
         for (int i = 0; i< list.size(); i++){
@@ -197,7 +199,7 @@ public class Main {
         System.out.println("Please, choose the patient to modify: ");
         Integer choice = Integer.parseInt(sc.nextLine());
         Patient patient = list.get(choice);
-        sc.close();
+        //sc.close();
         return patient;
     }
     public static void makeDiagnosis() throws IOException{
