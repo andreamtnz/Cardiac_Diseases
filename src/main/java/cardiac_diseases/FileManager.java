@@ -22,7 +22,7 @@ public class FileManager {
                 String heading = "Hospital, Patient name, Patient Lastname, Patient Age, Symptoms, Disease\n";
                 fileWriter.write(heading);
                 for (Patient patient : hospital.getListOfPatients()){
-                    String row = hospital.toString() +"," + patient.toString();
+                    String row = hospital.toString() +"," + patient.toCSV();
                     fileWriter.write(row);
                 }
                 fileWriter.close();
@@ -96,7 +96,7 @@ public class FileManager {
 
 
     public static void  main(String [] args){
-       /* Hospital hospital = new Hospital("Nuevo Hospital");
+       Hospital hospital = new Hospital("Nuevo Hospital");
 
         LinkedList<Symptom> symptoms1 = new LinkedList<>();
         symptoms1.add(Symptom.BRADYCHARDIA);
@@ -107,11 +107,12 @@ public class FileManager {
         hospital.setListOfPatients(patients);
 
         boolean b = downloadCSV(hospital);
-        if(b == true){
-        System.out.println("todo okey");*/
-
+        if(b == true) {
+            System.out.println("todo okey");
+        }
+        /*
         FileManager f = new FileManager("Nuevo Hospital");
         Hospital hospital2 = f.uploadCSV();
-        System.out.println(hospital2);
+        System.out.println(hospital2);*/
     }
 }
