@@ -15,7 +15,7 @@ public class File {
             boolean check=true;
 
             try {
-                File file = new File("C://" + hospital.getName() + ".csv");
+                File file = new File("C://" + hospital.getName() + ".xlsx");
                 FileWriter fileWriter = new FileWriter(String.valueOf(file)); // FileWriter(file) da error
 
                 String heading = "Hospital, Patient name,Patient Lastname, Patient Age, Symptoms, Disease\n";
@@ -38,7 +38,7 @@ public class File {
             LinkedList<Patient> listPatients = new LinkedList<>();
 
             try {
-                FileReader fileCSV = new FileReader(name + ".csv");
+                FileReader fileCSV = new FileReader(name + ".xlsx");
                 BufferedReader reader = new BufferedReader(fileCSV);
 
                 String row = reader.readLine();//Se salta la linea del encabezado que es como se ha escrito en guardarCSV()
