@@ -58,6 +58,8 @@ public class Main {
                 }
                 case 4: {
                     showPatientsInfo();
+                    break;
+
                 }
                 case 7: {
                     boolean fileCreation = file.downloadCSV(hospital);
