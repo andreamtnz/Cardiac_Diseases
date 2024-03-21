@@ -3,20 +3,16 @@ package cardiac_diseases;
 import java.io.*;
 import java.util.LinkedList;
 
-public class File {
+public class FileManager {
 
        private static String name ;
-
-    public File(String s) {
-        this.name  = s;
-    }
 
     public static  boolean downloadCSV(Hospital hospital){
             boolean check=true;
 
             try {
-                File file = new File("C://" + hospital.getName() + ".xlsx");
-                FileWriter fileWriter = new FileWriter(String.valueOf(file)); // FileWriter(file) da error
+                File file= new File("C://" + hospital.getName() + ".xlsx");
+                FileWriter fileWriter = new FileWriter(file);// FileWriter(file) da error
 
                 String heading = "Hospital, Patient name,Patient Lastname, Patient Age, Symptoms, Disease\n";
                 fileWriter.write(heading);
@@ -90,6 +86,23 @@ public class File {
     }
 
     public static void setName(String name) {
-        File.name = name;
+        FileManager.name = name;
+    }
+
+
+    public static void  main(String [] args){
+        Hospital hospital = new Hospital("Nuevo Hospital");
+
+        LinkedList<Symptom> symptoms1 = new LinkedList<>();
+        symptoms1.add(Symptom.BRADYCHARDIA);
+
+        Patient patient1 = new Patient("Andrea", "Martinez", 20, symptoms1, Disease.AORTIC_INSUFICIENCY);
+        LinkedList<Patient> patients = new LinkedList<>();
+        patients.add(patient1);
+        hospital.setListOfPatients(patients);
+
+        boolean b = downloadCSV(hospital);
+        if(b == true){
+        System.out.println("todo okey");}
     }
 }
