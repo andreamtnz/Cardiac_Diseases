@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class Main {
     public static Hospital hospital;
-    public static File file;
+    public static FileManager file;
     public static Scanner sc;
     public static void main(String[] args) throws Exception {
         boolean restart = true;
@@ -33,7 +33,7 @@ public class Main {
                     case 1: {
                         System.out.println("Enter the name of the file you want to open: ");
                         String name = sc.nextLine();
-                        file = new File(name);
+                        file = new FileManager(name);
                         hospital = file.uploadCSV(); //creates a hospital based on the file
                         break;
                     }
@@ -42,7 +42,7 @@ public class Main {
                         String name = sc.nextLine();
                         System.out.print("Creating new file...");
                         hospital = new Hospital(name);
-                        file = new File(name);
+                        file = new FileManager(name);
                         break;
                     }
                 }

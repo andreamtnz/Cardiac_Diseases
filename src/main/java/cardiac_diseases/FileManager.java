@@ -7,14 +7,19 @@ public class FileManager {
 
        private static String name ;
 
+
+    public FileManager(String name) {
+        this.name = name;
+    }
+
     public static  boolean downloadCSV(Hospital hospital){
             boolean check=true;
 
             try {
-                File file= new File("C://" + hospital.getName() + ".xlsx");
+                File file= new File(hospital.getName() + ".csv");
                 FileWriter fileWriter = new FileWriter(file);// FileWriter(file) da error
 
-                String heading = "Hospital, Patient name,Patient Lastname, Patient Age, Symptoms, Disease\n";
+                String heading = "Hospital, Patient name, Patient Lastname, Patient Age, Symptoms, Disease\n";
                 fileWriter.write(heading);
                 for (Patient patient : hospital.getListOfPatients()){
                     String row = hospital.toString() +"," + patient.toString();
@@ -34,7 +39,7 @@ public class FileManager {
             LinkedList<Patient> listPatients = new LinkedList<>();
 
             try {
-                FileReader fileCSV = new FileReader(name + ".xlsx");
+                FileReader fileCSV = new FileReader(name + ".csv");
                 BufferedReader reader = new BufferedReader(fileCSV);
 
                 String row = reader.readLine();//Se salta la linea del encabezado que es como se ha escrito en guardarCSV()
@@ -91,7 +96,7 @@ public class FileManager {
 
 
     public static void  main(String [] args){
-        Hospital hospital = new Hospital("Nuevo Hospital");
+       /* Hospital hospital = new Hospital("Nuevo Hospital");
 
         LinkedList<Symptom> symptoms1 = new LinkedList<>();
         symptoms1.add(Symptom.BRADYCHARDIA);
@@ -103,6 +108,10 @@ public class FileManager {
 
         boolean b = downloadCSV(hospital);
         if(b == true){
-        System.out.println("todo okey");}
+        System.out.println("todo okey");*/
+
+        FileManager f = new FileManager("Nuevo Hospital");
+        Hospital hospital2 = f.uploadCSV();
+        System.out.println(hospital2);
     }
 }
