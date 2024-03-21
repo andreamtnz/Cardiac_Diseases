@@ -14,7 +14,6 @@ public class Main {
     public static File file;
     public static Scanner sc;
     public static void main(String[] args) throws Exception {
-
         boolean program = true;
         sc = new Scanner(System.in);
         //Scanner sc = new Scanner(System.in);
