@@ -46,10 +46,7 @@ public class Main {
                         break;
                     }
                 }
-
-
                 while (program) {
-
                     printMenu();
                     Integer choice = Integer.parseInt(sc.nextLine());
                     while (choice < 1 && choice > 7) {
