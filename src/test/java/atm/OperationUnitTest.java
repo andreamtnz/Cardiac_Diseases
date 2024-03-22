@@ -47,7 +47,8 @@ public class OperationUnitTest {
             operationUnit.getOperations().add(op7);
 
             LOG.info("Run query. Rules are also fired");
-            instance.fire();
+            int rulesApplied = instance.fire();
+            LOG.info("" +rulesApplied);
             List<Operation> authorizedOperations = instance.executeQuery("FindAuthorizedOperations").toList("$operations");
             assertEquals(1, authorizedOperations.size());
             assertEquals(op3, authorizedOperations.get(0));

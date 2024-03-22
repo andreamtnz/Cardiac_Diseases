@@ -71,6 +71,7 @@ public class Patient {
 
     public LinkedList<Symptom> getSymptoms() {
         return symptoms;
+
     }
 
     public void setSymptoms(LinkedList<Symptom> symptoms) {

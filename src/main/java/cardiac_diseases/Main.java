@@ -16,37 +16,13 @@ public class Main {
             //Scanner sc = new Scanner(System.in);
             try {
                 hospitalMenu();
-                Integer num = Integer.parseInt(sc.nextLine());
-                while (num != 1 && num != 2) {
-                    System.out.println("Not a valid number... try again");
-                    hospitalMenu();
-                    num = Integer.parseInt(sc.nextLine());
-                }
-
-                switch (num) { //TODO solve problem with file
-                    case 1: {
-                        System.out.println("Enter the name of the file you want to open: ");
-                        String name = sc.nextLine();
-                        file = new FileManager(name);
-                        hospital = file.uploadCSV(); //creates a hospital based on the file
-                        break;
-                    }
-                    case 2: {
-                        System.out.println("Enter the name of the new file: ");
-                        String name = sc.nextLine();
-                        System.out.print("Creating new file...");
-                        hospital = new Hospital(name);
-                        file = new FileManager(name);
-                        break;
-                    }
-                }
                 while (program) {
                     printMenu();
                     Integer choice = Integer.parseInt(sc.nextLine());
                     while (choice < 1 && choice > 7) {
                         System.out.println("Not a valid number... try again");
-                        hospitalMenu();
-                        num = Integer.parseInt(sc.nextLine());
+                        printMenu();
+                        choice = Integer.parseInt(sc.nextLine());
                     }
                     switch (choice) {
                         case 1: { // Add patient
@@ -81,6 +57,7 @@ public class Main {
             } catch (IOException ex) {
                 System.out.println(ex);
             } catch (NumberFormatException ex) {
+                System.out.println("NOT A NUMBER... closing program");
                 System.out.println(ex);
             }
     }
@@ -95,10 +72,41 @@ public class Main {
         System.out.println("   7: Exit");
     }
     private static void hospitalMenu(){
-        System.out.println("-----------------WELCOME-----------------");
-        System.out.println("Would you like to open a CSV with the patients or create a new one?:");
-        System.out.println("   1: Open CSV ");
-        System.out.println("   2: Create a new one");
+        while(true) {
+            try {
+                System.out.println("-----------------WELCOME-----------------");
+                System.out.println("Would you like to open a CSV with the patients or create a new one?:");
+                System.out.println("   1: Open CSV ");
+                System.out.println("   2: Create a new one");
+
+                Integer num = Integer.parseInt(sc.nextLine());
+                while (num != 1 && num != 2) {
+                    System.out.println("Not a valid number... try again");
+                    hospitalMenu();
+                    num = Integer.parseInt(sc.nextLine());
+                }
+                switch (num) { //TODO solve problem with file
+                    case 1: {
+                        System.out.println("Enter the name of the file you want to open: ");
+                        String name = sc.nextLine();
+                        file = new FileManager(name);
+                        hospital = file.uploadCSV(); //creates a hospital based on the file
+                        break;
+                    }
+                    case 2: {
+                        System.out.println("Enter the name of the new file: ");
+                        String name = sc.nextLine();
+                        System.out.print("Creating new file...");
+                        hospital = new Hospital(name);
+                        file = new FileManager(name);
+                        break;
+                    }
+                }
+                break;
+            } catch (NumberFormatException ex) {
+                System.out.println("Please select a number");
+            }
+        }
     }
     private static void createPatient() throws IOException {
        // Scanner sc = new Scanner(System.in);
